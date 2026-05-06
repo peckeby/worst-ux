@@ -2,10 +2,41 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
       - name: Install and Build
         run: |
           npm install
           npm run build
         env:
+          # This ensures your code can use process.env.BASE_URL if needed
           BASE_URL: /worst-ux/
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Vite outputs to 'dist' by default.
+          # This sends the compiled JS/CSS to GitHub Pages.
+          path: './dist'
+
+  deploy:
+    # This job actually publishes the files uploaded above
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
