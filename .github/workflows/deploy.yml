@@ -1,3 +1,20 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+
+# Permissions must be here to allow the deployment to happen
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,21 +33,16 @@ jobs:
           npm install
           npm run build
         env:
-          # This ensures your code can use process.env.BASE_URL if needed
+          # This maps the variable for your code
           BASE_URL: /worst-ux/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Vite outputs to 'dist' by default.
-          # This sends the compiled JS/CSS to GitHub Pages.
+          # Double check your vite.config.ts - if it builds to 'build' instead of 'dist', change this
           path: './dist'
 
   deploy:
-    # This job actually publishes the files uploaded above
-    permissions:
-      pages: write
-      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
