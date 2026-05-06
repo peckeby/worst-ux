@@ -1,0 +1,424 @@
+:root {
+  font-family: "Courier New", Courier, monospace;
+  color: #1a1a1a;
+}
+
+body {
+  margin: 0;
+  background: #f0f0f0;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.app {
+  min-height: 100vh;
+  padding: 24px;
+  transition: background-color 0.6s ease;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 26px;
+}
+
+.panel {
+  background: rgba(255, 255, 255, 0.92);
+  border: 2px solid #2a2a2a;
+  padding: 16px;
+  box-shadow: 4px 4px 0 #2a2a2a;
+}
+
+.grid {
+  display: grid;
+  gap: 30px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  width: 25vw;
+  max-width: 25vw;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+input,
+textarea,
+button {
+  font-family: inherit;
+  padding: 8px;
+  border: 2px solid #2a2a2a;
+  background: #fff;
+}
+
+button {
+  cursor: pointer;
+}
+
+button.primary {
+  background: #e8e8e8;
+}
+
+button.secondary {
+  background: #f2f2f2;
+}
+
+.hidden-copy {
+  opacity: 0;
+  height: 0;
+}
+
+.press-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.press-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.press-button::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border: 2px dashed rgba(42, 42, 42, 0.4);
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.2s ease;
+}
+
+.press-button[data-pulse="0"]::after {
+  opacity: 0;
+}
+
+.press-button[data-pulse]:not([data-pulse="0"])::after {
+  animation: press-pulse 0.5s ease-out;
+}
+
+.press-message {
+  margin: 4px 0 12px;
+  font-size: 12px;
+  padding: 6px 8px;
+  border: 2px dashed #2a2a2a;
+  background: #f8f8f8;
+}
+
+.signature-pad {
+  margin: 12px 0;
+}
+
+.signature-pad canvas {
+  border: 2px dashed #2a2a2a;
+  background: #fff;
+  display: block;
+}
+
+.signature-hint {
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+.error {
+  color: #9c1a1a;
+  margin-top: 8px;
+}
+
+.success {
+  color: #1b6b28;
+  margin-top: 8px;
+}
+
+.notary-row {
+  display: grid;
+  gap: 8px;
+}
+
+.switch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timer {
+  font-size: 12px;
+}
+
+.notary-window {
+  padding: 16px;
+}
+
+.stamp-area {
+  display: grid;
+  gap: 12px;
+  align-items: start;
+}
+
+.stamp {
+  width: 120px;
+  text-align: center;
+  padding: 12px;
+  border: 2px solid #9c1a1a;
+  background: rgba(255, 0, 0, 0.1);
+  cursor: grab;
+}
+
+.break-sign {
+  padding: 12px;
+  border: 2px dashed #2a2a2a;
+  text-align: center;
+  background: #f4f4f4;
+}
+
+.queue-status {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.notice {
+  color: #9c1a1a;
+  margin-top: 8px;
+}
+
+.warning {
+  color: #9c1a1a;
+  margin-top: 8px;
+}
+
+.queue-hint {
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+.ink-meter {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 220px;
+}
+
+.ink-bar {
+  height: 12px;
+  border: 2px solid #2a2a2a;
+  background: #fff;
+}
+
+.ink-fill {
+  height: 100%;
+  background: #1a1a1a;
+}
+
+.ink-value {
+  font-size: 12px;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+.modal-content {
+  background: #fff;
+  border: 2px solid #2a2a2a;
+  padding: 16px;
+  width: min(360px, 90%);
+  display: grid;
+  gap: 12px;
+}
+
+.regulations-modal {
+  width: min(720px, 92%);
+  max-height: 80vh;
+}
+
+.regulations-body {
+  display: grid;
+  gap: 12px;
+  max-height: 52vh;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.regulations-section {
+  display: grid;
+  gap: 8px;
+}
+
+.regulations-section h4 {
+  margin: 0;
+}
+
+.progress {
+  display: grid;
+  gap: 6px;
+}
+
+.progress-bar {
+  height: 8px;
+  background: #2a2a2a;
+}
+
+.rejected-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+}
+
+.rejected-text {
+  font-size: 48px;
+  color: #9c1a1a;
+  border: 4px solid #9c1a1a;
+  padding: 12px 24px;
+  transform: rotate(-8deg);
+}
+
+.rejected-reason {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.ink-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(200, 200, 200, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 15;
+}
+
+.ink-message {
+  background: #fff;
+  padding: 16px;
+  border: 2px dashed #2a2a2a;
+}
+
+.ink-empty .grid,
+.ink-empty header,
+.ink-empty section,
+.ink-empty button,
+.ink-empty textarea,
+.ink-empty input {
+  pointer-events: none;
+  filter: grayscale(1);
+}
+
+.meta {
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.shredder-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 20, 20, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+}
+
+.shredder-box {
+  background: #fff;
+  border: 3px solid #2a2a2a;
+  padding: 18px 22px;
+  width: min(420px, 90%);
+  text-align: center;
+  display: grid;
+  gap: 10px;
+  box-shadow: 6px 6px 0 #2a2a2a;
+}
+
+.shredder-title {
+  font-weight: 700;
+}
+
+.shredder-doc {
+  border: 2px solid #2a2a2a;
+  padding: 8px;
+  background: #f9f9f9;
+  animation: shredder-slide 1.4s ease-in-out infinite;
+}
+
+.shredder-strips {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 4px;
+  height: 48px;
+  overflow: hidden;
+}
+
+.shred-strip {
+  background: repeating-linear-gradient(
+    to bottom,
+    #2a2a2a,
+    #2a2a2a 6px,
+    #f1f1f1 6px,
+    #f1f1f1 12px
+  );
+  animation: shredder-strip 0.6s linear infinite;
+}
+
+.shredder-note {
+  font-size: 12px;
+  font-weight: 700;
+  color: #9c1a1a;
+  border: 2px dashed #9c1a1a;
+  padding: 6px 8px;
+  background: #fff4f4;
+}
+
+@keyframes shredder-slide {
+  0% {
+    transform: translateY(0);
+  }
+  60% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes shredder-strip {
+  0% {
+    transform: translateY(-12px);
+  }
+  100% {
+    transform: translateY(12px);
+  }
+}
+
+@keyframes press-pulse {
+  0% {
+    opacity: 0.7;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+}
